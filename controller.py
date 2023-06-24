@@ -52,7 +52,7 @@ while True:
 
         case '5' | 'show by data':
             date = notebook.find_note(input('Введите дату: '))
-            print(f'>>> Заметки на дату: {date}:')
+            print(f'Заметки на дату: {date}:\n')
             print(search)
 
         case '6' | 'show':

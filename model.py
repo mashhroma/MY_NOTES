@@ -57,6 +57,15 @@ class Notebook:
             search_result.append('Данные не обнаружены.')
         return '\n'.join(search_result)
 
+    def find_by_date(self, find_date: str):
+        search_result = []
+        for i, note in enumerate(self.note_list):
+            if find_date == note['date'].to_str().lower():
+                search_result.append(f'{i+1} {note}')
+        if len(search_result) < 1:
+            search_result.append(f'На дату {find_date} нет заметок.')
+        return '\n'.join(search_result)
+
     def check_index(self, note_id: int):
         if note_id <= len(self.note_list):
             return True
