@@ -4,7 +4,8 @@ def show_greeding():
 Выберите действие:
 1. Создать новую записную книжку
 2. Загрузить записную книжку из файла (json)''')
-    
+
+
 def show_menu(text_menu: str):
     menu = text_menu.split('\n')
     for i, item in enumerate(menu):
@@ -12,14 +13,15 @@ def show_menu(text_menu: str):
             print(item)
         else:
             print(i, item)
-   
+
+
 def get_new_info():
-    date = input('Укажите дату в формате: 01.01.2000: ').split('.')
-    if len(date)<=2:
+    date = input('Укажите дату в формате: ').split('.')
+    if len(date) == 2:
         date.append('2023')
     else:
         if len(date[2]) < 4:
-            date[2] ='20' + date[2]
+            date[2] = '20' + date[2]
     date = '.'.join(date)
     title = input('Название заметки: ')
     comment = input('Комментарии к заметке: ')
