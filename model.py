@@ -66,23 +66,26 @@ class Notebook:
             search_result.append(f'На дату {find_date} нет заметок.')
         return '\n'.join(search_result)
 
-    def check_index(self, note_id: int):
-        if note_id <= len(self.note_list):
-            return True
-        else:
-            return False
+    def check_index(self, note_id: str):
+        if note_id.isdigit():
+            if int(note_id) <= len(self.note_list):
+                return True
+            else:
+                return False
 
-    def edit_note(self, note_id: int, note_info: dict):
+    def edit_note(self, note_id: str, note_info: dict):
+        index = int(note_id)-1
         if note_info.get('date') == '':
-            note_info['date'] = self.note_list[note_id-1].date
+            note_info['date'] = self.note_list[index].date
         if note_info.get('title') == '':
-            note_info['title'] = self.note_list[note_id-1].title
+            note_info['title'] = self.note_list[index].title
         if note_info.get('comment') == '':
-            note_info['comment'] = self.note_list[note_id-1].comment
-        self.note_list[note_id-1] = Note(note_info)
+            note_info['comment'] = self.note_list[index].comment
+        self.note_list[index] = Note(note_info)
 
-    def del_note(self, note_id: int):
-        self.note_list.pop(note_id-1)
+    def del_note(self, note_id: str):
+        index = int(note_id)-1
+        self.note_list.pop(index)
 
     def __str__(self) -> str:
         head = ['N', 'Дата', 'Название', 'Комментарии']

@@ -34,7 +34,7 @@ while True:
             print(search)
 
         case '3' | 'edit':
-            index = int(input('Введите номер заметки: '))
+            index = input('Введите номер заметки: ')
             if notebook.check_index(index):
                 edit_info = view.get_new_info()
                 notebook.edit_note(index, edit_info)
@@ -43,7 +43,7 @@ while True:
                 print('Заметки с таким номером нет.')
 
         case '4' | 'del':
-            index = int(input('Введите номер заметки: '))
+            index = input('Введите номер заметки: ')
             if notebook.check_index(index):
                 notebook.del_note(index)
                 print('>>> Заметка удалена.')
