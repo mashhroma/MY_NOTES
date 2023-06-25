@@ -9,18 +9,27 @@ path_exist = False
 view.show_greeding()
 
 if input('Введите 1 или 2: ') == '2':
-    path = input(
-        'Загрузите файл с заметками в директорию и напишите его название с расширением: ')
-    notebook.load_notebook(path)
-    path_exist = True
-    print('>>> Заметки загружены в программу.\n')
+    try_flag = True
+    while try_flag:
+        path = input(
+            'Загрузите файл с заметками в директорию и напишите его название с расширением: ')
+        try:
+            notebook.load_notebook(path)
+            print('>>> Заметки загружены в программу.\n')
+            path_exist = True
+            try_flag = False
+        except FileNotFoundError:
+            print(f'Файл "{path}" не найден.')
+            do_next = input('(Создать новый файл? Y/N): ').lower()
+            if do_next == 'y':
+                try_flag = False
 
-sleep(1)
+sleep(0.5)
 
 view.show_menu(commands.text_menu)
 
 while True:
-    choice = input('ВВЕДИТЕ КОМАНДУ (подсказка - help): ')
+    choice = input('\nВВЕДИТЕ КОМАНДУ (подсказка - help): ')
     match choice:
         case '1' | 'add':
             add = view.get_new_info()
@@ -50,18 +59,28 @@ while True:
             else:
                 print('Заметки с таким номером нет.')
 
-        case '5' | 'show by data':
-            date = input('Введите дату в формате 01.01.2000: ')
-            search = notebook.find_note(date)
-            print(f'Заметки на дату: {date}:\n')
-            print(search)
-
-        case '6' | 'show':
+        case '5' | 'show':
             print(notebook)
 
-        case '7' | 'save':
+        case '6' | 'show by term':
+            term = input('Введите дату срока: ')
+            search = notebook.find_by_date(term)
+            print(f'Заметки с данным сроком:')
+            print(search)
+
+        case '7' | 'show by data':
+            date = input('Введите дату создания или изменения: ')
+            search = notebook.find_by_create_date(date)
+            print(f'Заметки, созданные в эту дату:')
+            print(search)
+
+        case '8' | 'show':
+            print(notebook)
+
+        case '9' | 'save':
             if path_exist == False:
-                file_name = input('Укажите наименование файла заметок без расширения: ')
+                file_name = input(
+                    'Укажите наименование файла заметок без расширения: ')
                 path = f'{file_name}.json'
                 path_exist = True
             notebook.save_notebook(path)
