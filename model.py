@@ -60,7 +60,7 @@ class Notebook:
     def find_by_date(self, find_date: str):
         search_result = []
         for i, note in enumerate(self.note_list):
-            if find_date == note['date'].to_str().lower():
+            if find_date in note['date'].to_str().lower():
                 search_result.append(f'{i+1} {note}')
         if len(search_result) < 1:
             search_result.append(f'На дату {find_date} нет заметок.')
