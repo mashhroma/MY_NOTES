@@ -14,7 +14,7 @@ def show_menu(text_menu: str):
             print(i, item)
 
 def get_date():
-    date = input('Укажите дату в формате: ')
+    date = input('Дата (срок): ')
     if date != '':
         while '.' not in date:
             date = input('Неверный формат даты, укажите дату, разделяя точкой: ')

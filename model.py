@@ -1,22 +1,27 @@
+import datetime
+
+
 class Note:
-    def __init__(self, date: str, title: str, comment: str):
+    def __init__(self, date: str, title: str, comment: str, create_date: datetime):
         self.date = date
         self.title = title
         self.comment = comment
+        self.create_date = datetime.datetime.now()
 
     def __init__(self, note_info: dict):
         self.date = note_info.get('date')
         self.title = note_info.get('title')
         self.comment = note_info.get('comment')
+        self.create_date = datetime.datetime.now()
 
     def __str__(self) -> str:
-        return f'{self.date: <12} | {self.title: <20} | {self.comment: <35}'
+        return f'{self.create_date.strftime("%d.%m.%Y %H:%M:%S"): <20} | {self.title: <20} | {self.comment: <35} | {self.date: <11}'
 
     def to_str(self) -> str:
-        return f'{self.date: <12} | {self.title: <20} | {self.comment: <35}'
+        return f'{self.create_date.strftime("%d.%m.%Y %H:%M:%S"): <20} | {self.title: <20} | {self.comment: <35} | {self.date: <11}'
 
     def to_json(self):
-        return f'{{\n   "date": "{self.date}",\n   "title": "{self.title}",\n   "comment": "{self.comment}"\n}}'
+        return f'{{\n   "create_date": "{self.create_date.strftime("%d.%m.%Y %H:%M:%S")}",\n   "title": "{self.title}",\n   "comment": "{self.comment}",\n   "date": "{self.date}"\n}}'
 
 
 class Notebook:
@@ -57,13 +62,22 @@ class Notebook:
             search_result.append('Данные не обнаружены.')
         return '\n'.join(search_result)
 
-    def find_by_date(self, find_date: str):
+    def find_by_date(self, term: str):
         search_result = []
         for i, note in enumerate(self.note_list):
-            if find_date in note['date'].to_str().lower():
+            if term in note.date:
                 search_result.append(f'{i+1} {note}')
         if len(search_result) < 1:
-            search_result.append(f'На дату {find_date} нет заметок.')
+            search_result.append(f'На дату {term} нет заметок.')
+        return '\n'.join(search_result)
+
+    def find_by_create_date(self, find_date: str):
+        search_result = []
+        for i, note in enumerate(self.note_list):
+            if find_date in note.create_date.strftime("%d.%m.%Y %H:%M:%S"):
+                search_result.append(f'{i+1} {note}')
+        if len(search_result) < 1:
+            search_result.append(f'{find_date} не было создано заметок.')
         return '\n'.join(search_result)
 
     def check_index(self, note_id: str):
@@ -88,8 +102,8 @@ class Notebook:
         self.note_list.pop(index)
 
     def __str__(self) -> str:
-        head = ['N', 'Дата', 'Название', 'Комментарии']
-        result = f'{head[0]: <4} | {head[1]: <12} | {head[2]: <20} | {head[3]: <35}\n'
+        head = ['N', 'Дата coзд./измен.', 'Название', 'Комментарии', 'Дата']
+        result = f'{head[0]: <4} | {head[1]: <20} | {head[2]: <20} | {head[3]: <35} | {head[4]: <11}\n'
         for i, note in enumerate(self.note_list):
             result += f'{i+1: <4} | {note}\n'
         return result[:-2]
