@@ -10,7 +10,7 @@ view.show_greeding()
 
 if input('Введите 1 или 2: ') == '2':
     path = input(
-        'Загрузите файл с заметками в директорию и напишите его название: ')
+        'Загрузите файл с заметками в директорию и напишите его название с расширением: ')
     notebook.load_notebook(path)
     path_exist = True
     print('>>> Заметки загружены в программу.\n')
@@ -51,7 +51,8 @@ while True:
                 print('Заметки с таким номером нет.')
 
         case '5' | 'show by data':
-            date = notebook.find_note(input('Введите дату: '))
+            date = input('Введите дату в формате 01.01.2000: ')
+            search = notebook.find_note(date)
             print(f'Заметки на дату: {date}:\n')
             print(search)
 
@@ -60,7 +61,7 @@ while True:
 
         case '7' | 'save':
             if path_exist == False:
-                file_name = input('Укажите наименование файла заметок: ')
+                file_name = input('Укажите наименование файла заметок без расширения: ')
                 path = f'{file_name}.json'
                 path_exist = True
             notebook.save_notebook(path)
